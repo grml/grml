@@ -4,6 +4,9 @@ about: Create a report to help us improve
 
 ---
 
+**Known bug?**
+Before reporting this bug, please ensure that the bug isn't yet listed under the [known bugs](https://grml.org/bugs/known/).
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 

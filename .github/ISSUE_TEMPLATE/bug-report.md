@@ -37,7 +37,8 @@ Add any other context about the problem here.
 **Additional program output to the terminal or log subsystem illustrating the issue**
 
 <!-- Please paste relevant program terminal or journal output here. For very
-     long copy/pasted data consider using a service like https://paste.grml.org/.
+     long copy/pasted data consider using a service like
+     https://gist.github.com/ or https://paste.debian.net/.
      Where copy/paste is not possible (for example early boot or late
      shutdown), a photo of the screen might do too, but text is always much
      preferred. -->

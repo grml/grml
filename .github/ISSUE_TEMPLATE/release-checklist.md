@@ -10,7 +10,9 @@ assignees: ''
 <!-- 
 This release checklist issue should be created once all decicions in section "Planning" have been made.
 
-The tasks in section "Preflight" can be completed instantly.
+The tasks in section "Release Kick-Off" needs to be completed on issue creation.
+
+The tasks in section "Preflight" should be completed after the issue has been created.
 
 The tasks in section "Doing" should be completed on release day.
 
@@ -24,27 +26,27 @@ New release: 2025.08 (the release we are working on)
 Next release: 2025.Q4
 -->
 
-# Planning
+# Release Kick-Off
 
 - [ ] decide: release codename: Link to comment in https://github.com/grml/gsa-doc/issues/8 (*don't leak here 😉)
 - [ ] decide: next release codename: Link to comment in https://github.com/grml/gsa-doc/issues/8 (*dont' leak here 😉)
 - [ ] decide: release datename: `20YY.MM`
 - [ ] decide: testing or unstable as base: `unstable|testing`
 - [ ] decide: pick daily image (from https://gitlab.grml.org/grml/build-daily/-/pipelines)
+- [ ] rename the [GitHub project](https://github.com/orgs/grml/projects/) for the new release to reflect release date (i.e. 2025.Q2 -> 2025.08) and set 
+- [ ] create new release project for the *next* release in https://github.com/orgs/grml/projects using [template](https://github.com/orgs/grml/projects/9) (*placeholder to move the issues which will not be included in the current release*)
 
 # Preflight
 
-- [ ] rename the [current GitHub project](https://github.com/orgs/grml/projects/) for release to reflect release date (i.e. 2025.Q2 -> 2025.08)
-- [ ] create new release project for the *next* release in https://github.com/orgs/grml/projects using [template](https://github.com/orgs/grml/projects/9) (*placeholder to move the issues which will not be included in the current release*)
 - [ ] check repo "grml-live" is empty
 
 * https://deb.grml.org/dists/grml-live/main/binary-amd64/Packages + https://deb.grml.org/dists/grml-live/main/binary-arm64/Packages + https://deb.grml.org/dists/grml-live/main/binary-i386/Packages need to be empty
 * or on `web01`: `sudo sudo -u deb-www reprepro -b /var/www/deb.grml.org/repo list grml-live` returns nothing
   - [ ] otherwise empty it out (`sudo sudo -u deb-www reprepro -b /var/www/deb.grml.org/repo removematched grml-live '*'`)
 
-- [ ] put relevant open [Ready PRs](https://github.com/search?q=org%3Agrml+state%3Aopen+draft%3Afalse&type=pullrequests&ref=advsearch) into Project
-- [ ] put relevant open GitHub [Issues](https://github.com/search?q=org%3Agrml+state%3Aopen&type=Issues&ref=advsearch&l=&l=&s=updated&o=desc) into Project
-- [ ] check GitHub project for open topics: https://github.com/orgs/grml/projects/11
+- [ ] review [open, ready PRs (without a project set)](https://github.com/search?q=org%3Agrml+type%3Apr+state%3Aopen+draft%3Afalse+no%3Aproject&type=pullrequests) and put into project
+- [ ] review [open Issues (without a project set)](https://github.com/search?q=org%3Agrml+state%3Aopen+no%3Aproject&type=issues&ref=advsearch&s=updated&o=desc) and put into project
+- [ ] check GitHub project for open topics: https://github.com/orgs/grml/projects/$PROJECTID
 - [ ] all git repos and debs are in sync, check https://packages.grml.org
 - [ ] daily image was built with newest packages
 - [ ] remove "Old-Latest" release files + update `index.[de|en].html` from `/var/www/ftp-master.grml.org`

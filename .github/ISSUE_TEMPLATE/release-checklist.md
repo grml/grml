@@ -53,7 +53,7 @@ Next release: 2025.Q4
   - [ ] update hugo.yaml with current (pre-)release version
   - [ ] Final: /download/
   - [ ] /faq/ (release name)
-  - [ ] /screenshots/ PR: [Previous](https://github.com/grml/grml.org/pull/66)
+  - [ ] /screenshots/ (i.e. PR: [screenshots: Update screenshots for Grml release 2024.12](https://github.com/grml/grml.org/pull/66)
   - [ ] /bugs/known/
   - [ ] changelogs/
   - [ ] changelogs/README-grml-20XX.MM
@@ -68,7 +68,6 @@ https://gitlab.grml.org/grml/build-release/-/pipelines/TBD/builds
 - [ ] ISO tests
 - [ ] ISO + release update test at $site (@mika knows what is to be done)
 - [ ] copy repos:
-  - [ ] 2025.08 special: switch signing key to only CF55033A https://github.com/grml/grml-keyring/issues/4#issuecomment-2879670828
   - [ ] add repos for new release: grml-YYYY.MM grml-live-YYYY.MM and **commented out** grml-YYYY.MM-updates
   - [ ] add updates repo for old release: (uncomment) grml-YYYY.BB-updates
   - [ ] repo: copy grml-stable to grml-YYYY.BB-updates repo (`sudo reprepro -b /var/www/deb.grml.org/repo copymatched grml-YYYY.BB-updates grml-stable '*'`
@@ -85,9 +84,9 @@ https://gitlab.grml.org/grml/build-release/-/pipelines/TBD/builds
     - [ ] grml*metadata.tar
   - [ ] check sha256 sum files created by build job:
     ```
-    sha256sum -c SHA256SUMS-2025.08 *.sha256
+    sha256sum -c SHA256SUMS-20YY.MM *.sha256
     ```
-  - [ ] sign SHA256SUMS-2025.08:
+  - [ ] sign SHA256SUMS-20YY.YY:
     ```
     gpg --armor --detach-sign --output SHA256SUMS-20YY.MM.gpg SHA256SUMS-20YY.MM
     ```

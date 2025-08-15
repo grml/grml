@@ -1,6 +1,9 @@
 ---
 name: Software / Feature request
 about: Suggest an application or a feature
+title: ''
+labels: ''
+assignees: ''
 
 ---
 

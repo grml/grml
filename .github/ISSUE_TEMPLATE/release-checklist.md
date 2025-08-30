@@ -28,6 +28,7 @@ Next release: 2025.Q4
 
 # Release Kick-Off
 
+- [ ] latest release datename: `20YY.MM-1`
 - [ ] decide: release codename: Link to comment in https://github.com/grml/gsa-doc/issues/8 (*don't leak here 😉)
 - [ ] decide: next release codename: Link to comment in https://github.com/grml/gsa-doc/issues/8 (*dont' leak here 😉)
 - [ ] decide: release datename: `20YY.MM`

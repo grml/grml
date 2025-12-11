@@ -58,23 +58,18 @@ jobs:
             const issueBody = context.payload.issue.body;
             const issueTitle = context.payload.issue.title;
 
-            // Try to extract current version from title first (format: "Release YYYY.MM")
-            let versionMatch = issueTitle.match(/Release\s+(\d{4}\.\d{2})/i);
+            // Try to extract current version from title first (format: "Release checklist YYYY.MM")
+            let versionMatch = issueTitle.match(/Release\s+checklist\s+(\d{4}\.\d{2})/i);
             if (!versionMatch) {
-              // Try to extract from body
-              versionMatch = issueBody.match(/(?:decide:\s*release\s+datename|release)[:\s]+(\d{4}\.\d{2})/i);
-            }
-
-            if (!versionMatch) {
-              core.setFailed('Could not extract version number from issue title or body');
+              core.setFailed('Could not extract version number from issue title ');
               return;
             }
 
             const version = versionMatch[1];
             core.setOutput('version', version);
 
-            // Extract latest version from issue body
-            const prevVersionMatch = issueBody.match(/latest\s+release\s+datename[:\s]+`?(\d{4}\.\d{2})`?/i);
+            // Extract previous version from issue body
+            const prevVersionMatch = issueBody.match(/\] latest\s+release\s+datename[:\s]+`?(\d{4}\.\d{2})`?/i);
             if (!prevVersionMatch) {
               core.setFailed('Could not extract latest version from issue body');
               return;

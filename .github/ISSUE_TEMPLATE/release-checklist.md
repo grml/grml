@@ -14,6 +14,8 @@ Release checklist guide:
 
 * Replace 20YY.MM ("New release" datename) / 20YY.BB (Latest release datename) in the description
 * Replace $PROJECTID with the GitHub project ID of the upcoming release
+* Replace $LASTRELEASEDATE in the search queries below
+* Replace $RELEASEDATE in the search queries below (usually just a guess)
 * Remove the comments from the tasks (once they are completed)
 * The tasks in section "Preflight" should be completed after the issue has been created.
 * The tasks in section "Preflight" should be completed after the issue has been created.
@@ -23,9 +25,11 @@ Release checklist guide:
 
 Terminology (with examples):
 
+* Last release date: 2024-12-20
 * Old-Latest release: 2024.12
 * Latest release: 2025.05
 * Old next release: 2025.Q2 (the project name of the release before it was renamed to the "New release" datename)
+* Release date: 2024-08-16
 * New release: 2025.08 (the release we are working on)
 * Next release: 2025.Q4
 -->
@@ -53,11 +57,15 @@ Terminology (with examples):
 
   (*Comment: Do not set the project of the issue, to keep it in the "Backlog"*)
 
+- [ ] Triage (new) issues: https://github.com/search?q=org%3Agrml+no%3Aproject&type=issues (*Comment: "New issues" have no project and no label set: set project "Grml Release" -> Accepted or Backlog or set Closed (not planned)*)
+- [ ] Optionally re-triage release issues: https://github.com/orgs/grml/projects/16/views/1
 - [ ] check GitHub project for open issues: https://github.com/orgs/grml/projects/$PROJECTID (*Comment: either try to implement/fix them in the "Preflight" phase or move them to the "Next release"*)
 - [ ] all git repos and debs are in sync, check: https://packages.grml.org
 - [ ] daily image was built with newest packages (*Comment: if we change, add or remove any packages, we have to create a new daily image aka pick a pipeline job*)
 - [ ] prepare build-release job configuration file: (*Comment: i.e: MR for [2025.05 release config](https://gitlab.grml.org/grml/build-release/-/merge_requests/5) + [2025.08 release config](https://gitlab.grml.org/grml/build-release/-/merge_requests/6)*)
-- [ ] prepare website update in new branch and create a PR: (*Comment: i.e. PR for [Grml Release 2025.05](https://github.com/grml/grml.org/pull/102) + [Grml Release 2025.08](https://github.com/grml/grml.org/pull/117)*)
+- [ ] review [closed issues since last release date](https://github.com/search?q=org%3Agrml+closed%3A${LASTRELEASEDATE}..${RELEASEDATE}&type=issues&ref=advsearch) (to be included in changelogs)
+- [ ] review [closed pull requests since last release date](https://github.com/search?q=org%3Agrml+closed%3A${LASTRELEASEDATE}..${RELEASEDATE}&type=pullrequests&ref=advsearch) (to be included in changelogs)
+- [ ] prepare website update + release notes in new branch and create a PR: (*Comment: i.e. PR for [Grml Release 2025.05](https://github.com/grml/grml.org/pull/102) + [Grml Release 2025.08](https://github.com/grml/grml.org/pull/117)*)
   - [ ] update hugo.yaml with current (pre-)release version
   - [ ] Final: /download/
   - [ ] /faq/ (release name)
@@ -117,7 +125,7 @@ Terminology (with examples):
     * On `web01` download `artifacts.zip`: `curl --location --header "PRIVATE-TOKEN: glpat-XXXX" "https://gitlab.grml.org/api/v4/projects/grml%2Fbuild-release/jobs/7592/artifacts" -O`
     * Unzip `artifacts.zip` and move the files `grml*iso grml*tar` to `/var/www/ftp-master.grml.org/`
 
-  - [ ] upload `SHA256SUMS-20YY.MM.gpg *asc` (*Comment: to where?*)
+  - [ ] upload `SHA256SUMS-20YY.MM.gpg *asc`
 
     * From the unzipped `artifacts.zip` move the files `SHA256SUMS-20YY.MM.gpg *asc` to `/var/www/ftp-master.grml.org/`
 
@@ -138,7 +146,7 @@ Terminology (with examples):
 - [ ] send to mailing list: (*Comment: i.e. [Grml - new stable release 2025.05 available](https://lists.mur.at/hyperkitty/list/grml-announce@ml.grml.org/thread/2TA7K3B6SVA4VMSGN6TOF2NX5XP2PLPX/) + [Grml - new stable release 2025.08 available](https://lists.mur.at/hyperkitty/list/grml-announce@ml.grml.org/thread/EPGBLAYO2N7EINV7EJUPXT255O3BZBSP/)*)
 - [ ] mastodon: (*Comment: [2025.05](https://hachyderm.io/@grmlproject/114511194074491152) + [2025.08](https://hachyderm.io/@grmlproject/115038916407200568)*)
 - [ ] bluesky: (*Comment: [2025.05](https://bsky.app/profile/grmlproject.bsky.social/post/3lp77x3xla227) + [2025.08](https://bsky.app/profile/grmlproject.bsky.social/post/3lwjlbsn2ks2z)*)
-- [ ] Update IRC topic (*Comment: how?*)
+- [ ] Update IRC topic (*Comment: #grml channel operator can set the topic with something like this:* `/topic Grml Live Linux | Grml 2025.12 available! -> https://grml.org/ + https://grml.org/changelogs/README-grml-2025.12/ | Daily Snapshots: https://daily.grml.org/ | https://grml.org/faq/ + https://github.com/grml/grml/wiki/`)
 - [ ] Create [issues @ netboot.xyz](https://github.com/netbootxyz/netboot.xyz/issues/new/choose) + PRs to bump Grml version (*Comment: i.e. [netboot.xyz#1661: Update Grml to 2025.08](https://github.com/netbootxyz/netboot.xyz/issues/1661) + [merged/closed PRs](https://github.com/netbootxyz/debian-squash/pulls?q=is%3Apr+is%3Aclosed+grml)*)
 
 # Post Release Day

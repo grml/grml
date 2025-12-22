@@ -12,17 +12,17 @@ assignees: ''
 
 Change the following values when creating this issue:
 
-* Replace 20YY.MM ("New release" datename) / 20YY.BB (Latest release datename) in the description and in the title
-* Replace $LASTRELEASEDATE in the search queries below
+* Replace YY in the title, but keep MM (because we decide the new release date at the Dev-Days)
+* Replace $LATESTBUILDRELEASEDATE in the search queries below (this is the build date of the daily image used for the latest release)
 
-Terminology (with examples):
+Terminology (with examples for the 2025.12 release):
 
-* Build date of the daily image used for the release date (LASTRELEASEDATE): 2025-12-11
-* Old-Latest release: 2025.08
-* Latest release: 2025.12
-* Old next release: 2025.12 (the project name of the release before it was renamed to the "New release" datename)
-* New release: 2025.08 (the release we are working on)
-* Next release: 2025.Q4
+* Old-Latest release: 2025.05
+* Latest release: 2025.08
+* Build date of the daily image used for the latest release: (LATESTBUILDRELEASEDATE): 2025-08-15
+* New release: 2025.12 (the release we are working on)
+* Build date of the daily image used for the new release (BUILDRELASEDATE): 2025-12-11
+* Next release: 2026.Q1
 -->
 # Timeline
 
@@ -35,13 +35,14 @@ Terminology (with examples):
 # Release Kick-Off
 
 - [x] Create "Release checklist" issue
+- [ ] Latest release datename: `20YY.BB`
 - [ ] decide: Dev-Days date and location
 
 # Dev-Days
 
 - [ ] decide: Grml Release Meetup date and location
-- [ ] Latest release datename: `20YY.BB`
 - [ ] decide: "New release" datename: `20YY.MM`
+- [ ] replace 20YY.MM ("New release" datename) in the description and in the title
 - [ ] Confirm "New release" codename: https://github.com/grml/gsa-doc/issues/8
 - [ ] Triage (new) issues: https://github.com/search?q=org%3Agrml+no%3Aproject&type=issues (*Comment: "New issues" have no project and no label set: set project "Grml Release" -> Accepted or Backlog or set Closed (not planned)*)
 - [ ] Optionally re-triage release issues: https://github.com/orgs/grml/projects/16/views/1
@@ -66,7 +67,7 @@ Terminology (with examples):
 - [ ] decide: "New release" codename: Link to comment in https://github.com/grml/gsa-doc/issues/8 (*Comment: update the issue, but don't leak here 😉*)
 - [ ] decide: "Next release" codename: Link to comment in https://github.com/grml/gsa-doc/issues/8 (*Comment: update the issue, but dont' leak here 😉*)
 - [ ] decide: testing or unstable as base: `unstable|testing`
-- [ ] decide: pick daily image (from https://gitlab.grml.org/grml/build-daily/-/pipelines)
+- [ ] decide: pick daily image (from https://gitlab.grml.org/grml/build-daily/-/pipelines) -> BUILDRELASEDATE
 
 ## Release Tasks
 
@@ -76,8 +77,8 @@ Terminology (with examples):
 <img width="1294" height="759" alt="Image" src="https://github.com/user-attachments/assets/12759109-6da8-43fa-8508-e38cd6b63e64" />
 
 - [ ] daily image was built with newest packages (*Comment: if we change, add or remove any packages, we have to create a new daily image aka pick a pipeline job*)
-- [ ] review [closed issues since last release date](https://github.com/search?q=org%3Agrml+closed%3A${LASTRELEASEDATE}..2099-12-31+reason%3Acompleted&type=issues&ref=advsearch) (to be included in changelogs)
-- [ ] review [closed pull requests since last release date](https://github.com/search?q=org%3Agrml+closed%3A${LASTRELEASEDATE}..2099-12-31&type=pullrequests&ref=advsearch) (to be included in changelogs)
+- [ ] review [closed issues since last release date](https://github.com/search?q=org%3Agrml+closed%3A${LATESTBUILDRELEASEDATE}..2099-12-31+reason%3Acompleted&type=issues&ref=advsearch) (to be included in changelogs)
+- [ ] review [closed pull requests since last release date](https://github.com/search?q=org%3Agrml+closed%3A${LATESTBUILDRELEASEDATE}..2099-12-31&type=pullrequests&ref=advsearch) (to be included in changelogs)
 - [ ] prepare website update + release notes in new branch and create a PR: (*Comment: i.e. PR for [Grml Release 2025.05](https://github.com/grml/grml.org/pull/102) + [Grml Release 2025.08](https://github.com/grml/grml.org/pull/117)*)
   - [ ] update hugo.yaml with current (pre-)release version
   - [ ] Final: /download/

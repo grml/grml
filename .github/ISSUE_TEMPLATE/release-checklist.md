@@ -82,12 +82,23 @@ Terminology (with examples for the 2025.12 release):
 
 <img width="1294" height="759" alt="Image" src="https://github.com/user-attachments/assets/12759109-6da8-43fa-8508-e38cd6b63e64" />
 
+- [ ] remove "20YY.BB" release files from `/var/www/ftp-master.grml.org`
 
 ## Publishing Tasks (after "Build - Release" pipeline completed)
 
 - [ ] Quickcheck release ISO (*Comment: Download and boot grml-small ISO from Artifacts (from lastest [collect job](https://gitlab.grml.org/grml/build-release/-/jobs) i.e https://gitlab.grml.org/grml/build-release/-/jobs/9918/artifacts/browse) and check for typos (Release Codename and Date))
-- [ ] remove "Old-Latest" release files + update `index.[de|en].html` from `/var/www/ftp-master.grml.org`
 - [ ] mark artifacts of "collect" step in build-release job as Keep
+- [ ] Prepeare files in `/var/www/ftp-master.grml.org/`:
+  - [ ] upload `grml*iso grml*tar` (best done via curl directly from gitlab)
+
+    * On `web01` download `artifacts.zip`: `curl --location --header "PRIVATE-TOKEN: glpat-XXXX" "https://gitlab.grml.org/api/v4/projects/grml%2Fbuild-release/jobs/7592/artifacts" -O`
+    * Unzip `artifacts.zip` and move the files `grml*iso grml*tar` to `/var/www/ftp-master.grml.org/`
+
+  - [ ] check sha256 sum files created by build job:
+    ```
+    sha256sum -c SHA256SUMS-20YY.MM *.sha256
+    ```
+- [ ] ISO-Test: Test boot in arm64, amd64, small, full, bios vs efi
 - [ ] ISO + release update test at $site (@mika knows what is to be done)
 - [ ] copy repos:
   - [ ] add repos for "New release": grml-20YY.MM grml-live-20YY.MM and **commented out** grml-20YY.MM-updates
@@ -110,7 +121,7 @@ Terminology (with examples for the 2025.12 release):
   - [ ] sign SHA256SUMS-20YY.YY:
     ```
     gpg --armor --detach-sign --output SHA256SUMS-20YY.MM.gpg SHA256SUMS-20YY.MM
-    ```
+    ```    
   - [ ] sign ISOs to create `*.asc`:
     ```
     for f in *.iso ; gpg --output $f.asc --armor --detach-sig $f
@@ -120,10 +131,6 @@ Terminology (with examples for the 2025.12 release):
     sha256sum -c SHA256SUMS-20YY.MM
     gpg --keyid-format long --verify SHA256SUMS-20YY.MM.gpg SHA256SUMS-20YY.MM
     ```
-  - [ ] upload `grml*iso grml*tar` (best done via curl directly from gitlab)
-
-    * On `web01` download `artifacts.zip`: `curl --location --header "PRIVATE-TOKEN: glpat-XXXX" "https://gitlab.grml.org/api/v4/projects/grml%2Fbuild-release/jobs/7592/artifacts" -O`
-    * Unzip `artifacts.zip` and move the files `grml*iso grml*tar` to `/var/www/ftp-master.grml.org/`
 
   - [ ] upload `SHA256SUMS-20YY.MM.gpg *asc`
 

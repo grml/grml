@@ -92,12 +92,12 @@ Terminology (with examples for the 2025.12 release):
   - [ ] upload `grml*iso grml*tar` (best done via curl directly from gitlab)
 
     * On `web01` download `artifacts.zip`: `curl --location --header "PRIVATE-TOKEN: glpat-XXXX" "https://gitlab.grml.org/api/v4/projects/grml%2Fbuild-release/jobs/7592/artifacts" -O`
-    * Unzip `artifacts.zip` and move the files `grml*iso grml*tar` to `/var/www/ftp-master.grml.org/`
-
-  - [ ] check sha256 sum files created by build job:
+    * check sha256 sum files created by build job:
     ```
     sha256sum -c SHA256SUMS-20YY.MM *.sha256
     ```
+    * Unzip `artifacts.zip` and move all files from `collect-results/*` to `/var/www/ftp-master.grml.org/`
+  
 - [ ] ISO-Test: Test boot in arm64, amd64, small, full, bios vs efi
 - [ ] ISO + release update test at $site (@mika knows what is to be done)
 - [ ] copy repos:

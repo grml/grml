@@ -37,6 +37,7 @@ Terminology (with examples for the 2025.12 release):
 - [x] Create "Release checklist" issue
 - [ ] Latest release datename: `20YY.BB`
 - [ ] decide: Dev-Days date and location
+- [ ] re-triage release issues: https://github.com/orgs/grml/projects/16/views/1
 
 # Dev-Days
 
@@ -64,45 +65,51 @@ Terminology (with examples for the 2025.12 release):
 
 ## Decisions
 
-- [ ] decide: "New release" codename: Link to comment in https://github.com/grml/gsa-doc/issues/8 (*Comment: update the issue, but don't leak here 😉*)
+- [ ] re-confirm: "New release" codename: Link to comment in https://github.com/grml/gsa-doc/issues/8 (*Comment: update the issue, but don't leak here 😉*)
 - [ ] decide: "Next release" codename: Link to comment in https://github.com/grml/gsa-doc/issues/8 (*Comment: update the issue, but dont' leak here 😉*)
 - [ ] decide: testing or unstable as base: `unstable|testing`
 - [ ] decide: pick daily image (from https://gitlab.grml.org/grml/build-daily/-/pipelines) -> BUILDRELASEDATE
 
-## Release Tasks
+## Release Tasks - Pre Publishing Tasks
 
 - [ ] prepare "Build - Release" job configuration file: (*Comment: i.e: MR for [2025.05 release config](https://gitlab.grml.org/grml/build-release/-/merge_requests/5) + [2025.08 release config](https://gitlab.grml.org/grml/build-release/-/merge_requests/6)*)
-- [ ] trigger [new "Build - Release" pipeline](https://gitlab.grml.org/grml/build-release/-/pipelines/new): (*Comment: Set `USE_CONFIG_FILENAME` to "Next release" datename i.e. `2025.12` and link it here. I.e. [release-2025.08 pipeline](https://gitlab.grml.org/grml/build-release/-/pipelines/1126) -> [release-2025.08 pipeline jobs](https://gitlab.grml.org/grml/build-release/-/pipelines/1126/builds)*)
+  - note: full pipeline currently fails
+- [ ] Check that the daily image was built with newest packages (*Comment: if we change, add or remove any packages, we have to create a new daily image aka pick a pipeline job*)
+
+  - https://daily.grml.org/grml-full-amd64-testing/2026-04-29_04_03_09/grml-full-daily20260429build694testing-amd64-logs/fai/dpkg.list
+  - https://daily.grml.org/grml-full-amd64-testing/2026-04-29_04_03_09/grml-full-daily20260429build694testing-amd64-logs/changes-last-release.txt
+  - https://packages.grml.org/
+- [ ] trigger [new "Build - Release" pipeline] (after the configuraion file has been merged) (https://gitlab.grml.org/grml/build-release/-/pipelines/new): (*Comment: Set `USE_CONFIG_FILENAME` to "Next release" datename i.e. `2025.12` and link it here. I.e. [release-2025.08 pipeline](https://gitlab.grml.org/grml/build-release/-/pipelines/1126) -> [release-2025.08 pipeline jobs](https://gitlab.grml.org/grml/build-release/-/pipelines/1126/builds)*)
 
 <img width="1294" height="759" alt="Image" src="https://github.com/user-attachments/assets/12759109-6da8-43fa-8508-e38cd6b63e64" />
 
-- [ ] daily image was built with newest packages (*Comment: if we change, add or remove any packages, we have to create a new daily image aka pick a pipeline job*)
-- [ ] review [closed issues since last release date](https://github.com/search?q=org%3Agrml+closed%3A${LATESTBUILDRELEASEDATE}..2099-12-31+reason%3Acompleted&type=issues&ref=advsearch) (to be included in changelogs)
-- [ ] review [closed pull requests since last release date](https://github.com/search?q=org%3Agrml+closed%3A${LATESTBUILDRELEASEDATE}..2099-12-31&type=pullrequests&ref=advsearch) (to be included in changelogs)
-- [ ] prepare website update + release notes in new branch and create a PR: (*Comment: i.e. PR for [Grml Release 2025.05](https://github.com/grml/grml.org/pull/102) + [Grml Release 2025.08](https://github.com/grml/grml.org/pull/117)*)
-  - [ ] update hugo.yaml with current (pre-)release version
-  - [ ] Final: /download/
-  - [ ] /faq/ (release name)
-  - [ ] /screenshots/ (i.e. PR: [screenshots: Update screenshots for Grml release 2024.12](https://github.com/grml/grml.org/pull/66)
-  - [ ] /bugs/known/
-  - [ ] changelogs/
-  - [ ] changelogs/README-grml-20YY.MM
-  - [ ] front page: add news entry
-- [ ] prepare blog post in branch and create a PR: (*Comment: i.e. PR for [New blogpost: Grml - new stable release 2025.05 available](https://github.com/grml/blog.grml.org/pull/11) + [New blogpost: Grml - new stable release 2025.08 available](https://github.com/grml/blog.grml.org/pull/13)*)
+- [ ] remove "20YY.BB" release files from `/var/www/ftp-master.grml.org`
 
 ## Publishing Tasks (after "Build - Release" pipeline completed)
 
-- [ ] remove "Old-Latest" release files + update `index.[de|en].html` from `/var/www/ftp-master.grml.org`
+- [ ] Quickcheck release ISO (*Comment: Download and boot grml-small ISO from Artifacts (from lastest [collect job](https://gitlab.grml.org/grml/build-release/-/jobs) i.e https://gitlab.grml.org/grml/build-release/-/jobs/9918/artifacts/browse) and check for typos (Release Codename and Date)*)
 - [ ] mark artifacts of "collect" step in build-release job as Keep
-- [ ] ISO tests
+- [ ] Prepeare files in `/var/www/ftp-master.grml.org/`:
+  - [ ] upload `grml*iso grml*tar` (best done via curl directly from gitlab)
+
+    * On `web01` download `artifacts.zip`: `curl --location --header "PRIVATE-TOKEN: glpat-XXXX" "https://gitlab.grml.org/api/v4/projects/grml%2Fbuild-release/jobs/7592/artifacts" -O`
+    * check sha256 sum files created by build job:
+    ```
+    sha256sum -c SHA256SUMS-20YY.MM *.sha256
+    ```
+    * Unzip `artifacts.zip` and move all files from `collect-results/*` to `/var/www/ftp-master.grml.org/`
+
+- [ ] ISO-Test: Test boot in arm64, amd64, small, full, bios vs efi
 - [ ] ISO + release update test at $site (@mika knows what is to be done)
 - [ ] copy repos:
-  - [ ] add repos for "New release": grml-20YY.MM grml-live-20YY.MM and **commented out** grml-20YY.MM-updates
-  - [ ] add updates repo for "Latest release": (uncomment) grml-20YY.BB-updates
-  - [ ] repo: copy grml-stable to grml-20YY.MM-updates repo (`sudo reprepro -b /var/www/deb.grml.org/repo copymatched grml-20YY.MM-updates grml-stable '*'`
+  - [ ] Update `/var/www/deb.grml.org/repo/conf/distributions`
+    - [ ] add repos for "New release" (*Add `grml-20YY.MM` + `grml-live-20YY.MM` and commented out(!) `grml-20YY.MM-updates*`*)
+    - [ ] add updates repo for "Latest release" (*uncomment `grml-20YY.BB-updates` + update description)
+  - [ ] repo: copy grml-stable to grml-20YY.BB-updates repo (`sudo reprepro -b /var/www/deb.grml.org/repo copymatched grml-20YY.BB-updates grml-stable '*'`
   - [ ] repo: EMPTY OUT grml-stable ❗❗❗ (`sudo reprepro -b /var/www/deb.grml.org/repo removematched grml-stable '*'`)
   - [ ] repo: copy grml-testing to grml-stable (`sudo reprepro -b /var/www/deb.grml.org/repo copymatched grml-stable grml-testing '*'`)
   - [ ] repo: copy grml-testing to grml-20YY.MM repo (`sudo reprepro -b /var/www/deb.grml.org/repo copymatched grml-2025.MM grml-testing '*'`)
+  - remove obsolete packages: i.e. `grml-debian-keyring`?
 - [ ] build-daily: update config/daily `last_release` to to `20YY.MM` https://gitlab.grml.org/grml/build-daily/-/blob/main/config/daily and create a MR (*Comment: i.e. [config: Update last_release for 2025.08](https://gitlab.grml.org/grml/build-daily/-/merge_requests/22)*)
 - [ ] sign + upload to `/var/www/ftp-master.grml.org/` (RC: `devel/`) + to `/var/www/archive.grml.org/htdocs/`:
   - [ ] make sure you have:
@@ -127,10 +134,6 @@ Terminology (with examples for the 2025.12 release):
     sha256sum -c SHA256SUMS-20YY.MM
     gpg --keyid-format long --verify SHA256SUMS-20YY.MM.gpg SHA256SUMS-20YY.MM
     ```
-  - [ ] upload `grml*iso grml*tar` (best done via curl directly from gitlab)
-
-    * On `web01` download `artifacts.zip`: `curl --location --header "PRIVATE-TOKEN: glpat-XXXX" "https://gitlab.grml.org/api/v4/projects/grml%2Fbuild-release/jobs/7592/artifacts" -O`
-    * Unzip `artifacts.zip` and move the files `grml*iso grml*tar` to `/var/www/ftp-master.grml.org/`
 
   - [ ] upload `SHA256SUMS-20YY.MM.gpg *asc`
 
@@ -143,6 +146,20 @@ Terminology (with examples for the 2025.12 release):
     for x in *iso; do gpg --keyid-format long --verify $x.asc $x; done
     ```
   - [ ] update `index.*html` in ftp-master.g.o
+## Release Tasks - Post Publishing Tasks
+
+- [ ] review [closed issues since last release date](https://github.com/search?q=org%3Agrml+closed%3A${LATESTBUILDRELEASEDATE}..2099-12-31+reason%3Acompleted&type=issues&ref=advsearch) (to be included in changelogs)
+- [ ] review [closed pull requests since last release date](https://github.com/search?q=org%3Agrml+closed%3A${LATESTBUILDRELEASEDATE}..2099-12-31&type=pullrequests&ref=advsearch) (to be included in changelogs)
+- [ ] prepare website update + release notes in new branch and create a PR: (*Comment: i.e. PR for [Grml Release 2025.05](https://github.com/grml/grml.org/pull/102) + [Grml Release 2025.08](https://github.com/grml/grml.org/pull/117)*)
+  - [ ] update hugo.yaml with current (pre-)release version
+  - [ ] Final: /download/
+  - [ ] /faq/ (release name)
+  - [ ] /screenshots/ (i.e. PR: [screenshots: Update screenshots for Grml release 2024.12](https://github.com/grml/grml.org/pull/66)
+  - [ ] /bugs/known/
+  - [ ] changelogs/
+  - [ ] changelogs/README-grml-20YY.MM
+  - [ ] front page: add news entry
+- [ ] prepare blog post in branch and create a PR: (*Comment: i.e. PR for [New blogpost: Grml - new stable release 2025.05 available](https://github.com/grml/blog.grml.org/pull/11) + [New blogpost: Grml - new stable release 2025.08 available](https://github.com/grml/blog.grml.org/pull/13)*)
 
 # Release Day II
 
@@ -160,5 +177,4 @@ Terminology (with examples for the 2025.12 release):
 ## Prepare the next release
 
 - [ ] update [release checklist template](https://github.com/grml/grml/blob/master/.github/ISSUE_TEMPLATE/release-checklist.md) with new learnings
-- [ ] re-triage release issues: https://github.com/orgs/grml/projects/16/views/1
 - [ ] "After the release is before the release": Create a new "release checklist" issue as soon as possible after a Grml release

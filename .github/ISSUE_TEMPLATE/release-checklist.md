@@ -99,10 +99,10 @@ Terminology (with examples for the 2025.12 release):
 - [ ] copy repos:
   - [ ] add repos for "New release": grml-20YY.MM grml-live-20YY.MM and **commented out** grml-20YY.MM-updates
   - [ ] add updates repo for "Latest release": (uncomment) grml-20YY.BB-updates
-  - [ ] repo: copy grml-stable to grml-20YY.MM-updates repo (`sudo reprepro -b /var/www/deb.grml.org/repo copymatched grml-20YY.MM-updates grml-stable '*'`
+  - [ ] repo: copy grml-stable to grml-20YY.BB-updates repo (`sudo reprepro -b /var/www/deb.grml.org/repo copymatched grml-20YY.BB-updates grml-stable '*'`
   - [ ] repo: EMPTY OUT grml-stable ❗❗❗ (`sudo reprepro -b /var/www/deb.grml.org/repo removematched grml-stable '*'`)
   - [ ] repo: copy grml-testing to grml-stable (`sudo reprepro -b /var/www/deb.grml.org/repo copymatched grml-stable grml-testing '*'`)
-  - [ ] repo: copy grml-testing to grml-20YY.MM repo (`sudo reprepro -b /var/www/deb.grml.org/repo copymatched grml-2025.MM grml-testing '*'`)
+  - [ ] repo: copy grml-testing to grml-20YY.MM repo (`sudo reprepro -b /var/www/deb.grml.org/repo copymatched grml-20YY.MM grml-testing '*'`)
 - [ ] build-daily: update config/daily `last_release` to to `20YY.MM` https://gitlab.grml.org/grml/build-daily/-/blob/main/config/daily and create a MR (*Comment: i.e. [config: Update last_release for 2025.08](https://gitlab.grml.org/grml/build-daily/-/merge_requests/22)*)
 - [ ] sign + upload to `/var/www/ftp-master.grml.org/` (RC: `devel/`) + to `/var/www/archive.grml.org/htdocs/`:
   - [ ] make sure you have:

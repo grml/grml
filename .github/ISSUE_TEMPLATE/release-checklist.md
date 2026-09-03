@@ -107,6 +107,7 @@ Terminology (with examples for the 2025.12 release):
 - [ ] sign + upload to `/var/www/ftp-master.grml.org/` (RC: `devel/`) + to `/var/www/archive.grml.org/htdocs/`:
   - [ ] make sure you have:
     - [ ] `grml*iso`
+    - [ ] `grml*changelogs.tar`
     - [ ] `grml*netboot.tar`
     - [ ] `grml*sources.tar`
     - [ ] `grml*metadata.tar`

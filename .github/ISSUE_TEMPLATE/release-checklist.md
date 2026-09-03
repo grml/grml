@@ -92,21 +92,22 @@ Terminology (with examples for the 2025.12 release):
 
 ## Publishing Tasks (after "Build - Release" pipeline completed)
 
-- [ ] remove "Old-Latest" release files + update `index.[de|en].html` from `/var/www/ftp-master.grml.org`
+- [ ] remove "Old-Latest" release files from `/var/www/ftp-master.grml.org`
 - [ ] mark artifacts of "collect" step in build-release job as Keep
 - [ ] ISO tests
 - [ ] ISO + release update test at $site (@mika knows what is to be done)
 - [ ] copy repos:
   - [ ] add repos for "New release": grml-20YY.MM grml-live-20YY.MM and **commented out** grml-20YY.MM-updates
   - [ ] add updates repo for "Latest release": (uncomment) grml-20YY.BB-updates
-  - [ ] repo: copy grml-stable to grml-20YY.MM-updates repo (`sudo reprepro -b /var/www/deb.grml.org/repo copymatched grml-20YY.MM-updates grml-stable '*'`
+  - [ ] repo: copy grml-stable to grml-20YY.BB-updates repo (`sudo reprepro -b /var/www/deb.grml.org/repo copymatched grml-20YY.BB-updates grml-stable '*'`
   - [ ] repo: EMPTY OUT grml-stable ❗❗❗ (`sudo reprepro -b /var/www/deb.grml.org/repo removematched grml-stable '*'`)
   - [ ] repo: copy grml-testing to grml-stable (`sudo reprepro -b /var/www/deb.grml.org/repo copymatched grml-stable grml-testing '*'`)
-  - [ ] repo: copy grml-testing to grml-20YY.MM repo (`sudo reprepro -b /var/www/deb.grml.org/repo copymatched grml-2025.MM grml-testing '*'`)
+  - [ ] repo: copy grml-testing to grml-20YY.MM repo (`sudo reprepro -b /var/www/deb.grml.org/repo copymatched grml-20YY.MM grml-testing '*'`)
 - [ ] build-daily: update config/daily `last_release` to to `20YY.MM` https://gitlab.grml.org/grml/build-daily/-/blob/main/config/daily and create a MR (*Comment: i.e. [config: Update last_release for 2025.08](https://gitlab.grml.org/grml/build-daily/-/merge_requests/22)*)
 - [ ] sign + upload to `/var/www/ftp-master.grml.org/` (RC: `devel/`) + to `/var/www/archive.grml.org/htdocs/`:
   - [ ] make sure you have:
     - [ ] `grml*iso`
+    - [ ] `grml*changelogs.tar`
     - [ ] `grml*netboot.tar`
     - [ ] `grml*sources.tar`
     - [ ] `grml*metadata.tar`
@@ -142,7 +143,6 @@ Terminology (with examples for the 2025.12 release):
     gpg --keyid-format long --verify SHA256SUMS-20YY.MM.gpg SHA256SUMS-20YY.MM
     for x in *iso; do gpg --keyid-format long --verify $x.asc $x; done
     ```
-  - [ ] update `index.*html` in ftp-master.g.o
 
 # Release Day II
 

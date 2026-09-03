@@ -92,7 +92,7 @@ Terminology (with examples for the 2025.12 release):
 
 ## Publishing Tasks (after "Build - Release" pipeline completed)
 
-- [ ] remove "Old-Latest" release files + update `index.[de|en].html` from `/var/www/ftp-master.grml.org`
+- [ ] remove "Old-Latest" release files from `/var/www/ftp-master.grml.org`
 - [ ] mark artifacts of "collect" step in build-release job as Keep
 - [ ] ISO tests
 - [ ] ISO + release update test at $site (@mika knows what is to be done)
@@ -143,7 +143,6 @@ Terminology (with examples for the 2025.12 release):
     gpg --keyid-format long --verify SHA256SUMS-20YY.MM.gpg SHA256SUMS-20YY.MM
     for x in *iso; do gpg --keyid-format long --verify $x.asc $x; done
     ```
-  - [ ] update `index.*html` in ftp-master.g.o
 
 # Release Day II
 
